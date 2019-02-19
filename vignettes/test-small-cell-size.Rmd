@@ -1,0 +1,44 @@
+Install the package from the your github repo (make sure your repo is public). Instructions for installing a package from a github repo are available here https://cran.r-project.org/web/packages/githubinstall/vignettes/githubinstall.html
+```{r echo=FALSE}
+# TODO Install your package
+library(devtools)
+install_github("DarkShadeKnigh/SmallCellCheck")
+
+```
+
+Install the packages
+```{r echo=FALSE}
+# Use to generate the table one object
+install.packages("tableone")
+# Has the data we will use to generate a table one
+install.packages("survival")
+```
+
+Read in the data we will use to generate Table One
+```{r echo=FALSE}
+library(survival)
+data(pbc)
+```
+
+Create the Table One object
+```{r echo=FALSE}
+library("tableone")
+# The list of variables which are categorical
+catVars <- c("status", "trt", "ascites", "hepato",
+             "spiders", "edema", "stage")
+
+# subset (aka filter). hmm, I wonder if this will create small cell sizes
+pbc_subset <- subset(pbc, sex == "f" & age > 50 & edema == 0.5) 
+
+# create table 1 object
+TableOne <- CreateTableOne(data = pbc_subset, factorVars = catVars)
+
+print(TableOne)
+```
+
+Call your function that handles small cell sizes
+```{r echo=FALSE}
+# TODO Add the code here
+library("SmallCells")
+TableOne <- small_size_cells(TableOne)
+```
