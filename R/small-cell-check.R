@@ -33,10 +33,8 @@ small_size_cells <- function(passed_table,
       "Unsupported Type"
     )
   }
-  print(small_size_table)
   passed_table$MetaData[["small_cells"]] <- small_size_table
   if (print) {
-    print("THINKING")
     print(passed_table$MetaData$small_cells)
   }
   return(passed_table)
