@@ -21,7 +21,6 @@ small_size_cells <- function(passed_table,
                              small_size = 6,
                              print = TRUE,
                              table_type = "TableOne") {
-  source("R\\formats\\table-one.R")
   if (table_type == "TableOne") {
     small_size_table <- table_one_small_cells(passed_table, small_size)
   } else {
