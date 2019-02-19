@@ -11,40 +11,33 @@
 #'
 #' @return data frame with 2 columns variable_name and factors. This only adds the variables that contain small cells for easy identification. It
 #' returns an empty table when no small cells are present
-#'
-#' @examples
-#' table_one_small_cells(TableOne)
-#' table_one_small_cells(TableOne, small_size=7)
-#'
-table_one_small_cells <- function(
-  table_one,
-  small_size = 6
-) {
-  smallCellFound<-FALSE
-  varNames <-attr(table_one$CatTable[[1]],"names")
-  counter <-1
-  freqVector <-character()
-  detectedSmallCells <- data.frame(variable_name="bla")
-  detectedSmallCells$factors<-list(c(1,2,3))
-    for (j in table_one$CatTable[[1]]){
-      for (row in 1:nrow(j)) {
-        frequent <- j[row, "freq"]
-        levName  <- j[row, "level"]
-        if(frequent < small_size) {
-          smallCellFound <-TRUE
-          freqVector<- c(freqVector,levName)
-        }
+table_one_small_cells <- function(table_one,
+                                  small_size = 6) {
+  smallCellFound <- FALSE
+  varNames <- attr(table_one$CatTable[[1]], "names")
+  counter <- 1
+  freqVector <- character()
+  detectedSmallCells <- data.frame(variable_name = "bla")
+  detectedSmallCells$factors <- list(c(1, 2, 3))
+  for (j in table_one$CatTable[[1]]) {
+    for (row in 1:nrow(j)) {
+      frequent <- j[row, "freq"]
+      levName  <- j[row, "level"]
+      if (frequent < small_size) {
+        smallCellFound <- TRUE
+        freqVector <- c(freqVector, levName)
       }
-      if (smallCellFound){
-        tmp <- data.frame(variable_name = varNames[counter])
-        tmp$factors<-list(freqVector)
-        detectedSmallCells<- rbind(detectedSmallCells,tmp)
-        smallCellFound<- FALSE
-      }
-      counter <-counter+1
-      freqVector<-NULL
     }
-  detectedSmallCells<-detectedSmallCells[-c(1),]
-  rownames(detectedSmallCells)<-NULL
+    if (smallCellFound) {
+      tmp <- data.frame(variable_name = varNames[counter])
+      tmp$factors <- list(freqVector)
+      detectedSmallCells <- rbind(detectedSmallCells, tmp)
+      smallCellFound <- FALSE
+    }
+    counter <- counter + 1
+    freqVector <- NULL
+  }
+  detectedSmallCells <- detectedSmallCells[-c(1), ]
+  rownames(detectedSmallCells) <- NULL
   return(detectedSmallCells)
 }
