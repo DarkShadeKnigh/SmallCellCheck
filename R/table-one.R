@@ -13,31 +13,31 @@
 #' returns an empty table when no small cells are present
 table_one_small_cells <- function(table_one,
                                   small_size = 6) {
-  smallCellFound <- FALSE
-  varNames <- attr(table_one$CatTable[[1]], "names")
+  small_cell_found <- FALSE
+  var_names <- attr(table_one$CatTable[[1]], "names")
   counter <- 1
-  freqVector <- character()
-  detectedSmallCells <- data.frame(variable_name = "bla")
-  detectedSmallCells$factors <- list(c(1, 2, 3))
+  freq_vector <- character()
+  detected_small_cells <- data.frame(variable_name = "bla")
+  detected_small_cells$factors <- list(c(1, 2, 3))
   for (j in table_one$CatTable[[1]]) {
     for (row in 1:nrow(j)) {
       frequent <- j[row, "freq"]
-      levName  <- j[row, "level"]
+      lev_name <- j[row, "level"]
       if (frequent < small_size) {
-        smallCellFound <- TRUE
-        freqVector <- c(freqVector, levName)
+        small_cell_found <- TRUE
+        freq_vector <- c(freq_vector, lev_name)
       }
     }
-    if (smallCellFound) {
-      tmp <- data.frame(variable_name = varNames[counter])
-      tmp$factors <- list(freqVector)
-      detectedSmallCells <- rbind(detectedSmallCells, tmp)
-      smallCellFound <- FALSE
+    if (small_cell_found) {
+      tmp <- data.frame(variable_name = var_names[counter])
+      tmp$factors <- list(freq_vector)
+      detected_small_cells <- rbind(detected_small_cells, tmp)
+      small_cell_found <- FALSE
     }
     counter <- counter + 1
-    freqVector <- NULL
+    freq_vector <- NULL
   }
-  detectedSmallCells <- detectedSmallCells[-c(1), ]
-  rownames(detectedSmallCells) <- NULL
-  return(detectedSmallCells)
+  detected_small_cells <- detected_small_cells[-c(1), ]
+  rownames(detected_small_cells) <- NULL
+  return(detected_small_cells)
 }

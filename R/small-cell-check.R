@@ -16,7 +16,7 @@
 #' variable_name and factors and the rows are all the categorical variables whose one or more factors have small cells.
 #'
 #'
-#'@export
+#' @export
 small_size_cells <- function(passed_table,
                              small_size = 6,
                              print = TRUE,
