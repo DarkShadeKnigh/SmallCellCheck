@@ -1,4 +1,4 @@
-#' Small Cells Check
+#' Check for Small Cells
 #'
 #' Small Cells Check checks a given table for small sells then adds a small_cells table to the MetaData of the table object
 #'
@@ -17,12 +17,17 @@
 #'
 #'
 #' @export
-small_size_cells <- function(passed_table,
-                             small_size = 6,
-                             print = TRUE,
-                             table_type = "TableOne") {
+check_for_small_size_cells <- function(passed_table,
+                                       small_size = 6,
+                                       print = TRUE,
+                                       table_type = "TableOne") {
+
+  # Chosing Table procesing function -----------------------------------------------------------
+
+  # Handles TableOne type tables
   if (table_type == "TableOne") {
-    small_size_table <- table_one_small_cells(passed_table, small_size)
+    small_size_table <- check_for_small_size_cells_in_table_one(passed_table, small_size)
+    # In case an unsupported table type is used this error is thrown
   } else {
     stop(
       cat(
@@ -33,7 +38,12 @@ small_size_cells <- function(passed_table,
       "Unsupported Type"
     )
   }
+
+  # Outputing the created Table function --------------------------------------------------------
+
+  # Writes the created table into the MetaData object of the passed table
   passed_table$MetaData[["small_cells"]] <- small_size_table
+  # Prints the table if the print is requested
   if (print) {
     print(passed_table$MetaData$small_cells)
   }
