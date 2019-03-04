@@ -40,5 +40,5 @@ Call your function that handles small cell sizes
 ```{r echo=FALSE}
 # TODO Add the code here
 library("SmallCells")
-TableOne <- check_for_small_size_cells(TableOne)
+TableOne <- CheckForSmallSizeCells(TableOne)
 ```

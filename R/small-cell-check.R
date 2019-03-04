@@ -1,38 +1,37 @@
 #' Check for Small Cells
 #'
-#' Small Cells Check checks a given table for small sells then adds a small_cells table to the MetaData of the table object
+#' Small Cells Check checks a given table for small sells then adds a smallCells table to the MetaData of the table object
 #'
 #' Checks the categorical table within the TableOne param (CatTable field) for small cells. A small cell is a category where
-#' the number of people in the category (n) is less than the value specified by the small_size param. The freq field within
+#' the number of people in the category (n) is less than the value specified by the smallSize param. The freq field within
 #' each variable has the n values.
 #'
-#' @param passed_table The object outputted by the CreateTableOne function of the tableone package. The documentation is available here
+#' @param passedTable The object outputted by the CreateTableOne function of the tableone package. The documentation is available here
 #' https://cran.r-project.org/web/packages/tableone/index.html.
-#' @param small_size What value constitutes a small size cell. Default value is 6.
-#' @param print If TRUE prints the small_size metadata in a human readable format
-#' @param table_type Specifies the type of the table that is passed to the function
+#' @param smallSize What value constitutes a small size cell. Default value is 6.
+#' @param print If TRUE prints the smallSize metadata in a human readable format
+#' @param tableType Specifies the type of the table that is passed to the function
 #'
-#' @return The passed_table object with a new object in the Metadata object called small_cells. small_cells is a dataframe with 2 columns
-#' variable_name and factors and the rows are all the categorical variables whose one or more factors have small cells.
+#' @return The passedTable object with a new object in the Metadata object called smallCells. smallCells is a dataframe with 2 columns
+#' variableName and factors and the rows are all the categorical variables whose one or more factors have small cells.
 #'
 #'
 #' @export
-check_for_small_size_cells <- function(passed_table,
-                                       small_size = 6,
-                                       print = TRUE,
-                                       table_type = "TableOne") {
-
+CheckSmallCells <- function(passedTable,
+                            smallSize = 6,
+                            print = TRUE,
+                            tableType = "TableOne") {
   # Chosing Table procesing function -----------------------------------------------------------
 
   # Handles TableOne type tables
-  if (table_type == "TableOne") {
-    small_size_table <- check_for_small_size_cells_in_table_one(passed_table, small_size)
+  if (tableType == "TableOne") {
+    smallSizeTable <- CheckSmallCellsInTableOne(passedTable, smallSize)
     # In case an unsupported table type is used this error is thrown
   } else {
     stop(
       cat(
         "Table type ",
-        table_type,
+        tableType,
         " is not a valid table type or is not yet supported "
       ),
       "Unsupported Type"
@@ -42,10 +41,10 @@ check_for_small_size_cells <- function(passed_table,
   # Outputing the created Table function --------------------------------------------------------
 
   # Writes the created table into the MetaData object of the passed table
-  passed_table$MetaData[["small_cells"]] <- small_size_table
+  passedTable$MetaData[["smallCells"]] <- smallSizeTable
   # Prints the table if the print is requested
   if (print) {
-    print(passed_table$MetaData$small_cells)
+    print(passedTable$MetaData$smallCells)
   }
-  return(passed_table)
+  return(passedTable)
 }
